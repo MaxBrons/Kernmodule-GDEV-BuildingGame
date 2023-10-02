@@ -7,10 +7,7 @@ namespace BuildingGame.Core
         // A list of behaviours to be updated by this manager.
         protected List<IMonoBehaviour> _behaviours = new();
 
-        protected virtual void Initialize()
-        {
-
-        }
+        protected abstract void Initialize();
 
         // Add a behaviour to the list of behaviours to be updated.
         public bool Add(IMonoBehaviour behaviour)
