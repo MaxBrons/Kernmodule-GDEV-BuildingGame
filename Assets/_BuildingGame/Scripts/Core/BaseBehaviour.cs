@@ -1,5 +1,5 @@
 ﻿
-namespace BG.Core
+namespace BuildingGame.Core
 {
     // This is a base class for all objects that normally would extend
     // from the Unity MonoBehaviour class.

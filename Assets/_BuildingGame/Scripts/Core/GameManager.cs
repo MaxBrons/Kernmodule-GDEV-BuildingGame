@@ -1,39 +1,50 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BG.Core
+namespace BuildingGame.Core
 {
     // This is the only MonoBehaviour class in the game and this
     // manager will manage practically every object in the game.
     public class GameManager : MonoBehaviour
     {
-        private IBehaviour _behaviourManager;
+        private List<IBehaviourManager> _behaviourManagers;
 
         private void Awake()
         {
-            _behaviourManager = new BehaviourManager();
-            _behaviourManager.OnAwake();
+            // Add all the behaviour managers in this list
+            // to be updated during runtime.
+            _behaviourManagers = new()
+            {
+                new DebugBehaviourManager(),
+
+            };
+
+            _behaviourManagers.ForEach(manager => manager.OnAwake());
         }
 
         private void Start()
         {
-            _behaviourManager.OnStart();
+            _behaviourManagers.ForEach(manager => manager.OnStart());
         }
 
         private void Update()
         {
-            _behaviourManager.OnUpdate();
+            _behaviourManagers.ForEach(manager => manager.OnUpdate());
         }
 
         private void FixedUpdate()
         {
-            _behaviourManager.OnFixedUpdate();
+            _behaviourManagers.ForEach(manager => manager.OnFixedUpdate());
         }
 
         private void LateUpdate()
         {
-            _behaviourManager.OnLateUpdate();
+            _behaviourManagers.ForEach(manager => manager.OnLateUpdate());
+        }
+
+        private void OnDestroy()
+        {
+            _behaviourManagers.ForEach(manager => manager.OnDestroy());
         }
     }
 }

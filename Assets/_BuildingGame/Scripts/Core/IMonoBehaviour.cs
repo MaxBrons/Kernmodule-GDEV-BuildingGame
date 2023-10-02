@@ -1,5 +1,5 @@
 ﻿
-namespace BG.Core
+namespace BuildingGame.Core
 {
     public interface IMonoBehaviour : IBehaviour
     {

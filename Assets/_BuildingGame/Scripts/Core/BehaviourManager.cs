@@ -1,14 +1,19 @@
 ﻿using System.Collections.Generic;
 
-namespace BG.Core
+namespace BuildingGame.Core
 {
-    public sealed class BehaviourManager : IBehaviour
+    public abstract class BehaviourManager : IBehaviourManager
     {
         // A list of behaviours to be updated by this manager.
-        private static List<IMonoBehaviour> _behaviours = new();
+        protected List<IMonoBehaviour> _behaviours = new();
+
+        protected virtual void Initialize()
+        {
+
+        }
 
         // Add a behaviour to the list of behaviours to be updated.
-        public static bool Add(IMonoBehaviour behaviour)
+        public bool Add(IMonoBehaviour behaviour)
         {
             bool notInList = !_behaviours.Contains(behaviour);
 
@@ -25,7 +30,7 @@ namespace BG.Core
         }
 
         // Remove a behaviour from the list of behaviours to be updated.
-        public static bool Remove(IMonoBehaviour behaviour)
+        public bool Remove(IMonoBehaviour behaviour)
         {
             if (behaviour != null && _behaviours.Contains(behaviour)) {
                 behaviour.SetEnabled(false);
@@ -41,10 +46,13 @@ namespace BG.Core
         public void OnAwake()
         {
             _behaviours = new();
+            Initialize();
+            _behaviours.ForEach(behaviour => behaviour.OnAwake());
         }
 
         public void OnStart()
         {
+            _behaviours.ForEach(behaviour => behaviour.OnStart());
         }
 
         public void OnUpdate()
@@ -62,9 +70,12 @@ namespace BG.Core
             _behaviours.ForEach(behaviour => behaviour.OnLateUpdate());
         }
 
+        // Destroy all behaviours in the list of behaviours
+        // and than clear the list.
         public void OnDestroy()
         {
             _behaviours.ForEach(behaviour => {
+                behaviour.SetEnabled(false);
                 behaviour.OnDisable();
                 behaviour.OnDestroy();
             });
