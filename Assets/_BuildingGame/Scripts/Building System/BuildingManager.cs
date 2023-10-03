@@ -1,10 +1,14 @@
+using BuildingGame.Input;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace BuildingGame.BuildingSystem
 {
     public class BuildingBehaviour : Core.BaseBehaviour
     {
+        public InputActionsCore inputActions = new();
+
         private IBuildingState _buildingState;
         private IBuildingState _destroyState;
 
@@ -38,6 +42,8 @@ namespace BuildingGame.BuildingSystem
             // Initialize all states
             _buildingState = new BuildState();
             _destroyState = new DestroyState();
+
+            inputActions.Enable();
 
             // Select the first structure and start in building state
             CurrentSelectedStructure = structures[0];

@@ -18,22 +18,20 @@ namespace BuildingGame.BuildingSystem
             Transform hitTransform = PlayerCameraRaycast.RaycastForTransform();
             Vector3 hitPosition = PlayerCameraRaycast.RaycastForPoint();
 
-            if (true) // TODO: Maak beter
+            Vector3 target;
+
+            //Change target depending on you look at a structure or ground
+            if(hitTransform.tag == "Structure") { target = hitTransform.position; }
+            else { target = hitPosition; }
+
+            if (buildingBehaviour.inputActions.Building.PlaceBluiding.WasPressedThisFrame())
             {
-                buildingBehaviour.CurrentSelectedStructure.TryPlace(hitPosition);
+                buildingBehaviour.CurrentSelectedStructure.TryPlace(target);
             }
             else
             {
-                if (PlayerCameraRaycast.RaycastForTransform().tag == "Structure")
-                {
-                    buildingBehaviour.CurrentSelectedStructure.MoveStructure(hitTransform.position + new Vector3(2, 0, 0));
-                }
-                else
-                {
-                    buildingBehaviour.CurrentSelectedStructure.MoveStructure(PlayerCameraRaycast.RaycastForPoint());
-                }
-
-            }  
+                buildingBehaviour.CurrentSelectedStructure.MoveStructure(target);
+            } 
         }
     }
 }

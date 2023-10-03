@@ -8,6 +8,8 @@ namespace BuildingGame.BuildingSystem
         [SerializeField] private GameObject _structurePreviewPrefab;
         [SerializeField] private GameObject _structurePrefab;
 
+        [SerializeField] private Vector3[] snappingPoints;
+
         private GameObject previewStructure;
 
         public void SpawnPreviewStructure(Vector3 pos)

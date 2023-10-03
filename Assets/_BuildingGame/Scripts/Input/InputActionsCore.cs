@@ -24,9 +24,158 @@ namespace BuildingGame.Input
         {
             asset = InputActionAsset.FromJson(@"{
     ""name"": ""InputActionsCore"",
-    ""maps"": [],
+    ""maps"": [
+        {
+            ""name"": ""Building"",
+            ""id"": ""7324c3ed-c2bd-452f-9f8e-abcd742e539f"",
+            ""actions"": [
+                {
+                    ""name"": ""PlaceBluiding"",
+                    ""type"": ""Button"",
+                    ""id"": ""9f7f25b8-e2ac-4f3a-a6ae-0e5b8a595896"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""e7127811-0d45-4ca7-a001-79ff1549634b"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PlaceBluiding"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Player"",
+            ""id"": ""74a305e5-8ef6-4e53-973c-a8b7540f35f6"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""2799292d-fed9-4150-8617-10a0aa9ea526"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""c0e1390f-6f89-4531-852a-eb82a510b4d5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""993ab84c-39fd-4494-b71e-42f9454a6dfd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""22256084-4ca4-411c-b371-17139abce29b"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""c1ff4e84-0f04-43dd-b54f-b661b26ad09d"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""3b35dcde-7b70-4728-9b60-3f4d1dd3db91"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""3b3d5e55-2fda-488c-ad12-f6797d4620a9"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""d03f3713-72a7-43fc-aa22-0d62ea94a790"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""76993724-0a99-4526-b73c-280aeb6ca8a6"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb453d6e-11b0-478c-a999-28a06d939db6"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        }
+    ],
     ""controlSchemes"": []
 }");
+            // Building
+            m_Building = asset.FindActionMap("Building", throwIfNotFound: true);
+            m_Building_PlaceBluiding = m_Building.FindAction("PlaceBluiding", throwIfNotFound: true);
+            // Player
+            m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
+            m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+            m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+            m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -83,6 +232,124 @@ namespace BuildingGame.Input
         public int FindBinding(InputBinding bindingMask, out InputAction action)
         {
             return asset.FindBinding(bindingMask, out action);
+        }
+
+        // Building
+        private readonly InputActionMap m_Building;
+        private List<IBuildingActions> m_BuildingActionsCallbackInterfaces = new List<IBuildingActions>();
+        private readonly InputAction m_Building_PlaceBluiding;
+        public struct BuildingActions
+        {
+            private @InputActionsCore m_Wrapper;
+            public BuildingActions(@InputActionsCore wrapper) { m_Wrapper = wrapper; }
+            public InputAction @PlaceBluiding => m_Wrapper.m_Building_PlaceBluiding;
+            public InputActionMap Get() { return m_Wrapper.m_Building; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(BuildingActions set) { return set.Get(); }
+            public void AddCallbacks(IBuildingActions instance)
+            {
+                if (instance == null || m_Wrapper.m_BuildingActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_BuildingActionsCallbackInterfaces.Add(instance);
+                @PlaceBluiding.started += instance.OnPlaceBluiding;
+                @PlaceBluiding.performed += instance.OnPlaceBluiding;
+                @PlaceBluiding.canceled += instance.OnPlaceBluiding;
+            }
+
+            private void UnregisterCallbacks(IBuildingActions instance)
+            {
+                @PlaceBluiding.started -= instance.OnPlaceBluiding;
+                @PlaceBluiding.performed -= instance.OnPlaceBluiding;
+                @PlaceBluiding.canceled -= instance.OnPlaceBluiding;
+            }
+
+            public void RemoveCallbacks(IBuildingActions instance)
+            {
+                if (m_Wrapper.m_BuildingActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(IBuildingActions instance)
+            {
+                foreach (var item in m_Wrapper.m_BuildingActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_BuildingActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public BuildingActions @Building => new BuildingActions(this);
+
+        // Player
+        private readonly InputActionMap m_Player;
+        private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
+        private readonly InputAction m_Player_Move;
+        private readonly InputAction m_Player_Jump;
+        private readonly InputAction m_Player_Sprint;
+        public struct PlayerActions
+        {
+            private @InputActionsCore m_Wrapper;
+            public PlayerActions(@InputActionsCore wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Move => m_Wrapper.m_Player_Move;
+            public InputAction @Jump => m_Wrapper.m_Player_Jump;
+            public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
+            public InputActionMap Get() { return m_Wrapper.m_Player; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
+            public void AddCallbacks(IPlayerActions instance)
+            {
+                if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
+                @Sprint.started += instance.OnSprint;
+                @Sprint.performed += instance.OnSprint;
+                @Sprint.canceled += instance.OnSprint;
+            }
+
+            private void UnregisterCallbacks(IPlayerActions instance)
+            {
+                @Move.started -= instance.OnMove;
+                @Move.performed -= instance.OnMove;
+                @Move.canceled -= instance.OnMove;
+                @Jump.started -= instance.OnJump;
+                @Jump.performed -= instance.OnJump;
+                @Jump.canceled -= instance.OnJump;
+                @Sprint.started -= instance.OnSprint;
+                @Sprint.performed -= instance.OnSprint;
+                @Sprint.canceled -= instance.OnSprint;
+            }
+
+            public void RemoveCallbacks(IPlayerActions instance)
+            {
+                if (m_Wrapper.m_PlayerActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(IPlayerActions instance)
+            {
+                foreach (var item in m_Wrapper.m_PlayerActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_PlayerActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public PlayerActions @Player => new PlayerActions(this);
+        public interface IBuildingActions
+        {
+            void OnPlaceBluiding(InputAction.CallbackContext context);
+        }
+        public interface IPlayerActions
+        {
+            void OnMove(InputAction.CallbackContext context);
+            void OnJump(InputAction.CallbackContext context);
+            void OnSprint(InputAction.CallbackContext context);
         }
     }
 }
