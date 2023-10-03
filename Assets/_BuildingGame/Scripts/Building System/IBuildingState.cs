@@ -1,6 +1,9 @@
-public interface IBuildingState 
+namespace BuildingGame.BuildingSystem
 {
-    public void Start(BaseBuildingManager baseBuildManager);
-    public void Update(BaseBuildingManager baseBuildManager);
-    public void Exit(BaseBuildingManager baseBuildManager);
+    public interface IBuildingState
+    {
+        public void Start(BaseBuildingManager baseBuildManager);
+        public void Update(BaseBuildingManager baseBuildManager);
+        public void Exit(BaseBuildingManager baseBuildManager);
+    }
 }

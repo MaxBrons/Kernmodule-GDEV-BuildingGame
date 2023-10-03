@@ -1,25 +1,28 @@
 using UnityEngine;
 
-[CreateAssetMenu()]
-public class Structure : ScriptableObject
+namespace BuildingGame.BuildingSystem
 {
-    [SerializeField] private GameObject structurePrefab;
-
-    private GameObject previewStructure;
-    
-    public void SpawnPreviewStructure(Vector3 pos)
+    [CreateAssetMenu()]
+    public class Structure : ScriptableObject
     {
-        Debug.Log("Spawned preview Structure");
-        previewStructure = Instantiate(structurePrefab, pos, Quaternion.identity);
-    }
+        [SerializeField] private GameObject structurePrefab;
 
-    public void MoveStructure(Vector3 pos)
-    {
-        previewStructure.transform.position = pos;
-    }
+        private GameObject previewStructure;
 
-    public bool TryPlace()
-    {
-        return false;
+        public void SpawnPreviewStructure(Vector3 pos)
+        {
+            Debug.Log("Spawned preview Structure");
+            previewStructure = Instantiate(structurePrefab, pos, Quaternion.identity);
+        }
+
+        public void MoveStructure(Vector3 pos)
+        {
+            previewStructure.transform.position = pos;
+        }
+
+        public bool TryPlace()
+        {
+            return false;
+        }
     }
 }
