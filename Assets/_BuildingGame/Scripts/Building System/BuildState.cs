@@ -4,20 +4,36 @@ namespace BuildingGame.BuildingSystem
 {
     public class BuildState : IBuildingState
     {
-        public void Exit(BaseBuildingManager baseBuildManager)
+        public void Exit(BuildingBehaviour buildingBehaviour)
         {
         }
 
-        public void Start(BaseBuildingManager baseBuildManager)
+        public void Start(BuildingBehaviour buildingBehaviour)
         {
-            Debug.Log("Started Building");
-
-            baseBuildManager.CurrentSelectedStructure.SpawnPreviewStructure(PlayerCameraRaycast.RaycastForPoint());
+            buildingBehaviour.CurrentSelectedStructure.SpawnPreviewStructure(PlayerCameraRaycast.RaycastForPoint()); 
         }
 
-        public void Update(BaseBuildingManager baseBuildManager)
+        public void Update(BuildingBehaviour buildingBehaviour)
         {
-            baseBuildManager.CurrentSelectedStructure.MoveStructure(PlayerCameraRaycast.RaycastForPoint());
+            Transform hitTransform = PlayerCameraRaycast.RaycastForTransform();
+            Vector3 hitPosition = PlayerCameraRaycast.RaycastForPoint();
+
+            if (Input.GetMouseButtonDown(0)) // TODO: Maak beter
+            {
+                buildingBehaviour.CurrentSelectedStructure.TryPlace(hitPosition);
+            }
+            else
+            {
+                if (PlayerCameraRaycast.RaycastForTransform().tag == "Structure")
+                {
+                    buildingBehaviour.CurrentSelectedStructure.MoveStructure(hitTransform.position + new Vector3(2, 0, 0));
+                }
+                else
+                {
+                    buildingBehaviour.CurrentSelectedStructure.MoveStructure(PlayerCameraRaycast.RaycastForPoint());
+                }
+
+            }  
         }
     }
 }

@@ -6,15 +6,15 @@ namespace BuildingGame.BuildingSystem
 {
     public class DestroyState : IBuildingState
     {
-        public void Exit(BaseBuildingManager baseBuildManager)
+        public void Exit(BuildingBehaviour buildingBehaviour)
         {
         }
 
-        public void Start(BaseBuildingManager baseBuildManager)
+        public void Start(BuildingBehaviour buildingBehaviour)
         {
         }
 
-        public void Update(BaseBuildingManager baseBuildManager)
+        public void Update(BuildingBehaviour buildingBehaviour)
         {
         }
     }

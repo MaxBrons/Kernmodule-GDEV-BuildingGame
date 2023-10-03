@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe222ebba9164a247a74b3053da7cae0, type: 3}
-  m_Name: FoundationStructure
+  m_Name: Foundation
   m_EditorClassIdentifier: 
-  structurePrefab: {fileID: 9178481630199765643, guid: 55ec96fb0111ba844b447143fa0ffb6e,
+  _structurePreviewPrefab: {fileID: 874738895505506934, guid: fff941902e446cb45b526cff8f631a82,
+    type: 3}
+  _structurePrefab: {fileID: 9178481630199765643, guid: 55ec96fb0111ba844b447143fa0ffb6e,
     type: 3}

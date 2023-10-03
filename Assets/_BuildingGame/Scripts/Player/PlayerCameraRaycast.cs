@@ -14,4 +14,17 @@ public static class PlayerCameraRaycast
 
         return Vector3.one;
     }
+
+    public static Transform RaycastForTransform()
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            return hit.transform;
+        }
+
+        return null;
+    }
 }
