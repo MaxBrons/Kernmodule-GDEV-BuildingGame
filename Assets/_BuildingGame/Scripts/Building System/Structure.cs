@@ -8,13 +8,12 @@ namespace BuildingGame.BuildingSystem
         [SerializeField] private GameObject _structurePreviewPrefab;
         [SerializeField] private GameObject _structurePrefab;
 
-        [SerializeField] private Vector3[] snappingPoints;
+        public SnappingPoint[] snappingPoints;
 
         private GameObject previewStructure;
 
         public void SpawnPreviewStructure(Vector3 pos)
         {
-            Debug.Log("Spawned preview Structure");
             previewStructure = Instantiate(_structurePreviewPrefab, pos, Quaternion.identity);
         }
 

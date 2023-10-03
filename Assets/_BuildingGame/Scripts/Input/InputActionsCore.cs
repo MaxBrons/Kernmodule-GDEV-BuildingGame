@@ -37,6 +37,15 @@ namespace BuildingGame.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotate"",
+                    ""type"": ""Button"",
+                    ""id"": ""b7fb9e82-d4cc-434c-baed-678b47a15d11"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -48,6 +57,17 @@ namespace BuildingGame.Input
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""PlaceBluiding"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec205e1f-0bfd-4be1-9e0b-8e154752dba6"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -171,6 +191,7 @@ namespace BuildingGame.Input
             // Building
             m_Building = asset.FindActionMap("Building", throwIfNotFound: true);
             m_Building_PlaceBluiding = m_Building.FindAction("PlaceBluiding", throwIfNotFound: true);
+            m_Building_Rotate = m_Building.FindAction("Rotate", throwIfNotFound: true);
             // Player
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
@@ -238,11 +259,13 @@ namespace BuildingGame.Input
         private readonly InputActionMap m_Building;
         private List<IBuildingActions> m_BuildingActionsCallbackInterfaces = new List<IBuildingActions>();
         private readonly InputAction m_Building_PlaceBluiding;
+        private readonly InputAction m_Building_Rotate;
         public struct BuildingActions
         {
             private @InputActionsCore m_Wrapper;
             public BuildingActions(@InputActionsCore wrapper) { m_Wrapper = wrapper; }
             public InputAction @PlaceBluiding => m_Wrapper.m_Building_PlaceBluiding;
+            public InputAction @Rotate => m_Wrapper.m_Building_Rotate;
             public InputActionMap Get() { return m_Wrapper.m_Building; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -255,6 +278,9 @@ namespace BuildingGame.Input
                 @PlaceBluiding.started += instance.OnPlaceBluiding;
                 @PlaceBluiding.performed += instance.OnPlaceBluiding;
                 @PlaceBluiding.canceled += instance.OnPlaceBluiding;
+                @Rotate.started += instance.OnRotate;
+                @Rotate.performed += instance.OnRotate;
+                @Rotate.canceled += instance.OnRotate;
             }
 
             private void UnregisterCallbacks(IBuildingActions instance)
@@ -262,6 +288,9 @@ namespace BuildingGame.Input
                 @PlaceBluiding.started -= instance.OnPlaceBluiding;
                 @PlaceBluiding.performed -= instance.OnPlaceBluiding;
                 @PlaceBluiding.canceled -= instance.OnPlaceBluiding;
+                @Rotate.started -= instance.OnRotate;
+                @Rotate.performed -= instance.OnRotate;
+                @Rotate.canceled -= instance.OnRotate;
             }
 
             public void RemoveCallbacks(IBuildingActions instance)
@@ -344,6 +373,7 @@ namespace BuildingGame.Input
         public interface IBuildingActions
         {
             void OnPlaceBluiding(InputAction.CallbackContext context);
+            void OnRotate(InputAction.CallbackContext context);
         }
         public interface IPlayerActions
         {
