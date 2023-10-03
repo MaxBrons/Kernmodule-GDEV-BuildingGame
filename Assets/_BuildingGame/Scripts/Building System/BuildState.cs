@@ -18,7 +18,7 @@ namespace BuildingGame.BuildingSystem
             Transform hitTransform = PlayerCameraRaycast.RaycastForTransform();
             Vector3 hitPosition = PlayerCameraRaycast.RaycastForPoint();
 
-            if (Input.GetMouseButtonDown(0)) // TODO: Maak beter
+            if (true) // TODO: Maak beter
             {
                 buildingBehaviour.CurrentSelectedStructure.TryPlace(hitPosition);
             }
