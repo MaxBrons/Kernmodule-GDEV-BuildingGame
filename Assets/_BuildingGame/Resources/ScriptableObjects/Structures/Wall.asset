@@ -16,13 +16,28 @@ MonoBehaviour:
     type: 3}
   _structurePrefab: {fileID: 9178481630199765643, guid: a3071d23576c16a459d7656be401d1f6,
     type: 3}
-  foundationSnappingPoints:
-  - {x: 1, y: 1, z: 0}
-  - {x: -1, y: 1, z: 0}
-  - {x: 0, y: 1, z: 1}
-  - {x: 0, y: 1, z: -1}
-  wallSnappingPoints:
-  - {x: 0, y: 2, z: 0}
-  - {x: 0, y: 0, z: 2}
-  - {x: 0, y: -2, z: 0}
-  - {x: 0, y: 0, z: -2}
+  snappingPoints:
+  - pos: {x: 2, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0}
+    allowedStructures: 2
+  - pos: {x: -2, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0}
+    allowedStructures: 2
+  - pos: {x: 0, y: 0, z: 2}
+    rot: {x: 0, y: 0, z: 0}
+    allowedStructures: 2
+  - pos: {x: 0, y: 0, z: -2}
+    rot: {x: 0, y: 0, z: 0}
+    allowedStructures: 2
+  - pos: {x: 1, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0}
+    allowedStructures: 4
+  - pos: {x: -1, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0}
+    allowedStructures: 4
+  - pos: {x: 0, y: 0, z: 1}
+    rot: {x: 0, y: 0, z: 0}
+    allowedStructures: 4
+  - pos: {x: 0, y: 0, z: -1}
+    rot: {x: 0, y: 0, z: 0}
+    allowedStructures: 4

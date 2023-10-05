@@ -8,9 +8,7 @@ namespace BuildingGame.BuildingSystem
         [SerializeField] private GameObject _structurePreviewPrefab;
         [SerializeField] private GameObject _structurePrefab;
 
-        //Snapping points for snapping new buildings on existing structures
-        public Vector3[] foundationSnappingPoints;
-        public Vector3[] wallSnappingPoints;
+        public SnappingPoint[] snappingPoints;
 
         private GameObject previewStructure;
 

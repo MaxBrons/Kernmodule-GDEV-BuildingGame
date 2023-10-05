@@ -16,13 +16,4 @@ MonoBehaviour:
     type: 3}
   _structurePrefab: {fileID: 9178481630199765643, guid: 55ec96fb0111ba844b447143fa0ffb6e,
     type: 3}
-  foundationSnappingPoints:
-  - {x: 2, y: 0, z: 0}
-  - {x: 0, y: 0, z: 2}
-  - {x: -2, y: 0, z: 0}
-  - {x: 0, y: 0, z: -2}
-  wallSnappingPoints:
-  - {x: 1, y: 1, z: 0}
-  - {x: -1, y: 1, z: 0}
-  - {x: 1, y: -1, z: 0}
-  - {x: -1, y: -1, z: 0}
+  snappingPoints: []

@@ -1,3 +1,4 @@
+using BuildingGame.Core;
 using UnityEngine;
 
 namespace BuildingGame.BuildingSystem
@@ -44,14 +45,19 @@ namespace BuildingGame.BuildingSystem
                 switch(hitTransform.name)
                 {
                     case "Foundation(Clone)":
-                        target = hitTransform.position +
-                            buildingBehaviour.CurrentSelectedStructure.foundationSnappingPoints[_currentSnappingPoint];
+                        //target = hitTransform.position +
+                            //buildingBehaviour.CurrentSelectedStructure.foundationSnappingPoints[_currentSnappingPoint];
                         break;
                     case "Wall(Clone)":
-                        target = hitTransform.position +
-                            buildingBehaviour.CurrentSelectedStructure.wallSnappingPoints[_currentSnappingPoint];
+                        foreach (SnappingPoint snappingPoint in buildingBehaviour.CurrentSelectedStructure.snappingPoints)
+                        {
+
+                        }
+
                         break;
                 }
+
+                
                  
             }
             else { target = hitPosition; }
