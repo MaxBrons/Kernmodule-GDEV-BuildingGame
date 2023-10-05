@@ -24,14 +24,15 @@ namespace BuildingGame.BuildingSystem
             Destroy(previewStructure);
         }
 
-        public void MoveStructure(Vector3 pos)
+        public void MoveStructure(Vector3 pos, Vector3 rot)
         {
             previewStructure.transform.position = pos;
+            previewStructure.transform.rotation = Quaternion.Euler(rot.x, rot.y, rot.z) * _structurePreviewPrefab.transform.localRotation;
         }
 
-        public bool TryPlace(Vector3 pos)
+        public bool TryPlace(Vector3 pos, Vector3 rot)
         {
-            Instantiate(_structurePrefab, pos, Quaternion.identity * _structurePrefab.transform.localRotation);
+            Instantiate(_structurePrefab, pos, Quaternion.identity * Quaternion.Euler(rot.x, rot.y, rot.z) * _structurePreviewPrefab.transform.localRotation);
 
             // TODO: Return false when conditions are not legal
             return true;

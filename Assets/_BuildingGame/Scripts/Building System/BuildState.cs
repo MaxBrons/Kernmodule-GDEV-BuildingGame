@@ -1,75 +1,99 @@
-using BuildingGame.Core;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BuildingGame.BuildingSystem
 {
     public class BuildState : IBuildingState
     {
-        private int _currentSnappingPoint;
+        private List<SnappingPoint> _snappingPoints;
+        private int _currentSelectedSnappingPoint;
+        private int _maxSnappingPoint;
 
         public void Exit(BuildingBehaviour buildingBehaviour)
         {
+            buildingBehaviour.CurrentSelectedStructure.DestroyPreviewStructure();
         }
 
         public void Start(BuildingBehaviour buildingBehaviour)
         {
             buildingBehaviour.CurrentSelectedStructure.SpawnPreviewStructure(PlayerCameraRaycast.RaycastForPoint()); 
-            _currentSnappingPoint = 0;
+            _currentSelectedSnappingPoint = 0;
         }
 
         public void Update(BuildingBehaviour buildingBehaviour)
         {
+            // Switching the currently selected structure
             if (buildingBehaviour.inputActions.Building.SwapBuilding.WasPressedThisFrame())
             {
                 buildingBehaviour.SelectNextStructure();
                 buildingBehaviour.CurrentSelectedStructure.SpawnPreviewStructure(PlayerCameraRaycast.RaycastForPoint());
             }
 
-
+            // Getting the target transform and pos to use later
             Transform hitTransform = PlayerCameraRaycast.RaycastForTransform();
             Vector3 hitPosition = PlayerCameraRaycast.RaycastForPoint();
 
-            Vector3 target = Vector3.one;
+            Vector3 targetPos = new Vector3();
+            Vector3 targetRot = new Vector3();
 
             if(buildingBehaviour.inputActions.Building.Rotate.WasPressedThisFrame()) 
             { 
-                _currentSnappingPoint += 1;
-                if (_currentSnappingPoint > 3) { _currentSnappingPoint = 0; }
+                _currentSelectedSnappingPoint += 1;
+                if (_currentSelectedSnappingPoint > 3) { _currentSelectedSnappingPoint = 0; }
             }
 
-            // Change target depending on you look at a structure or ground
-            if(hitTransform.tag == "Structure") 
-            { 
-                // Apply the snapping points offset
-                // TODO: Make it nicer instead of using strings and switch case
-                switch(hitTransform.name)
+            if(hitTransform != null)
+            {
+                // Change target depending on you look at a structure or ground
+                if (hitTransform.tag == "Structure")
                 {
-                    case "Foundation(Clone)":
-                        //target = hitTransform.position +
-                            //buildingBehaviour.CurrentSelectedStructure.foundationSnappingPoints[_currentSnappingPoint];
-                        break;
-                    case "Wall(Clone)":
-                        foreach (SnappingPoint snappingPoint in buildingBehaviour.CurrentSelectedStructure.snappingPoints)
-                        {
+                    _snappingPoints = new List<SnappingPoint>();
 
-                        }
+                    // Apply the snapping points offset
+                    // TODO: Make it nicer instead of using strings and switch case (might be harder without the use of monobehaviours)
+                    switch (hitTransform.name)
+                    {
+                        case "Foundation(Clone)":
+                            foreach (SnappingPoint snappingPoint in buildingBehaviour.CurrentSelectedStructure.snappingPoints)
+                            {
+                                if (snappingPoint.allowedStructures.Equals(AllowedStructures.Foundation)) { _snappingPoints.Add(snappingPoint); }
+                            }
 
-                        break;
+                            _maxSnappingPoint = _snappingPoints.Count - 1;
+                            if (_currentSelectedSnappingPoint > _maxSnappingPoint) { _currentSelectedSnappingPoint = _maxSnappingPoint; }
+                            targetPos = hitTransform.position + _snappingPoints[_currentSelectedSnappingPoint].posistion;
+                            targetRot = _snappingPoints[_currentSelectedSnappingPoint].rotation;
+                            break;
+
+                        case "Wall(Clone)":
+
+                            foreach (SnappingPoint snappingPoint in buildingBehaviour.CurrentSelectedStructure.snappingPoints)
+                            {
+                                if (snappingPoint.allowedStructures.Equals(AllowedStructures.Wall)) { _snappingPoints.Add(snappingPoint); }
+                            }
+
+                            _maxSnappingPoint = _snappingPoints.Count - 1;
+                            if (_currentSelectedSnappingPoint > _maxSnappingPoint) { _currentSelectedSnappingPoint = _maxSnappingPoint; }
+                            targetPos = hitTransform.position + _snappingPoints[_currentSelectedSnappingPoint].posistion;
+                            targetRot = _snappingPoints[_currentSelectedSnappingPoint].rotation;
+
+                            break;
+                    }
+
                 }
+                // When not looking at a structure make the target the point you're looking at
+                else { targetPos = hitPosition; }
 
-                
-                 
+                // Place building when clicking
+                if (buildingBehaviour.inputActions.Building.PlaceBluiding.WasPressedThisFrame())
+                {
+                    buildingBehaviour.CurrentSelectedStructure.TryPlace(targetPos, targetRot);
+                }
+                else
+                {
+                    buildingBehaviour.CurrentSelectedStructure.MoveStructure(targetPos, targetRot);
+                }
             }
-            else { target = hitPosition; }
-
-            if (buildingBehaviour.inputActions.Building.PlaceBluiding.WasPressedThisFrame())
-            {
-                buildingBehaviour.CurrentSelectedStructure.TryPlace(target);
-            }
-            else
-            {
-                buildingBehaviour.CurrentSelectedStructure.MoveStructure(target);
-            } 
         }
     }
 }

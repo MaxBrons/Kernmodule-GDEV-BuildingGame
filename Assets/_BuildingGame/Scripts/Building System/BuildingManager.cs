@@ -1,7 +1,6 @@
 using BuildingGame.Input;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace BuildingGame.BuildingSystem
 {
@@ -56,6 +55,14 @@ namespace BuildingGame.BuildingSystem
         public override void OnUpdate()
         {
             CurrentBuildingState?.Update(this);
+
+            // Switch states when the input has been pressed
+            if (inputActions.Building.SwitchState.WasPressedThisFrame())
+            {
+                if(currentBuildingState != _destroyState) { CurrentBuildingState = _destroyState; }
+                else { CurrentBuildingState = _buildingState; }
+
+            }
         }
 
         // Selects next structure

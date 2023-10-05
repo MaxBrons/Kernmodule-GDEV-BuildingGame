@@ -12,7 +12,7 @@ public enum AllowedStructures : byte
 [Serializable]
 public struct SnappingPoint
 {
-    public Vector3 pos;
-    public Vector3 rot;
+    public Vector3 posistion;
+    public Vector3 rotation;
     public AllowedStructures allowedStructures;
 }

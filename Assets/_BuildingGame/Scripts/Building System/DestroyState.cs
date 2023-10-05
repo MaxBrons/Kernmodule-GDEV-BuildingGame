@@ -16,6 +16,15 @@ namespace BuildingGame.BuildingSystem
 
         public void Update(BuildingBehaviour buildingBehaviour)
         {
+            if (buildingBehaviour.inputActions.Building.PlaceBluiding.WasPerformedThisFrame())
+            {
+                Transform hit = PlayerCameraRaycast.RaycastForTransform();
+
+                if (hit?.tag == "Structure")
+                {
+                    Object.Destroy(hit.gameObject);
+                }
+            }
         }
     }
 }

@@ -2,6 +2,9 @@ using UnityEngine;
 
 public static class PlayerCameraRaycast
 {
+    /// <summary>
+    /// Method return the point in worldspace where main camera is looking at
+    /// </summary>
     public static Vector3 RaycastForPoint()
     {
         RaycastHit hit;
@@ -15,6 +18,9 @@ public static class PlayerCameraRaycast
         return Vector3.one;
     }
 
+    /// <summary>
+    /// Method return the transform where main camera is looking at
+    /// </summary>
     public static Transform RaycastForTransform()
     {
         RaycastHit hit;

@@ -55,6 +55,15 @@ namespace BuildingGame.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchState"",
+                    ""type"": ""Button"",
+                    ""id"": ""24f7265a-8e50-4286-9dce-ac67d614ceae"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -88,6 +97,17 @@ namespace BuildingGame.Input
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SwapBuilding"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""08baedcb-2320-4c51-b821-ccf3a9cb0ef0"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchState"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -213,6 +233,7 @@ namespace BuildingGame.Input
             m_Building_PlaceBluiding = m_Building.FindAction("PlaceBluiding", throwIfNotFound: true);
             m_Building_Rotate = m_Building.FindAction("Rotate", throwIfNotFound: true);
             m_Building_SwapBuilding = m_Building.FindAction("SwapBuilding", throwIfNotFound: true);
+            m_Building_SwitchState = m_Building.FindAction("SwitchState", throwIfNotFound: true);
             // Player
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
@@ -282,6 +303,7 @@ namespace BuildingGame.Input
         private readonly InputAction m_Building_PlaceBluiding;
         private readonly InputAction m_Building_Rotate;
         private readonly InputAction m_Building_SwapBuilding;
+        private readonly InputAction m_Building_SwitchState;
         public struct BuildingActions
         {
             private @InputActionsCore m_Wrapper;
@@ -289,6 +311,7 @@ namespace BuildingGame.Input
             public InputAction @PlaceBluiding => m_Wrapper.m_Building_PlaceBluiding;
             public InputAction @Rotate => m_Wrapper.m_Building_Rotate;
             public InputAction @SwapBuilding => m_Wrapper.m_Building_SwapBuilding;
+            public InputAction @SwitchState => m_Wrapper.m_Building_SwitchState;
             public InputActionMap Get() { return m_Wrapper.m_Building; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -307,6 +330,9 @@ namespace BuildingGame.Input
                 @SwapBuilding.started += instance.OnSwapBuilding;
                 @SwapBuilding.performed += instance.OnSwapBuilding;
                 @SwapBuilding.canceled += instance.OnSwapBuilding;
+                @SwitchState.started += instance.OnSwitchState;
+                @SwitchState.performed += instance.OnSwitchState;
+                @SwitchState.canceled += instance.OnSwitchState;
             }
 
             private void UnregisterCallbacks(IBuildingActions instance)
@@ -320,6 +346,9 @@ namespace BuildingGame.Input
                 @SwapBuilding.started -= instance.OnSwapBuilding;
                 @SwapBuilding.performed -= instance.OnSwapBuilding;
                 @SwapBuilding.canceled -= instance.OnSwapBuilding;
+                @SwitchState.started -= instance.OnSwitchState;
+                @SwitchState.performed -= instance.OnSwitchState;
+                @SwitchState.canceled -= instance.OnSwitchState;
             }
 
             public void RemoveCallbacks(IBuildingActions instance)
@@ -404,6 +433,7 @@ namespace BuildingGame.Input
             void OnPlaceBluiding(InputAction.CallbackContext context);
             void OnRotate(InputAction.CallbackContext context);
             void OnSwapBuilding(InputAction.CallbackContext context);
+            void OnSwitchState(InputAction.CallbackContext context);
         }
         public interface IPlayerActions
         {
