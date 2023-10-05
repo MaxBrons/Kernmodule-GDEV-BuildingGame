@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe222ebba9164a247a74b3053da7cae0, type: 3}
-  m_Name: Foundation
+  m_Name: Wall
   m_EditorClassIdentifier: 
-  _structurePreviewPrefab: {fileID: 874738895505506934, guid: fff941902e446cb45b526cff8f631a82,
+  _structurePreviewPrefab: {fileID: 5035065728200233947, guid: 2a98ddfdbfa311440b9036cf12e310f7,
     type: 3}
-  _structurePrefab: {fileID: 9178481630199765643, guid: 55ec96fb0111ba844b447143fa0ffb6e,
+  _structurePrefab: {fileID: 9178481630199765643, guid: a3071d23576c16a459d7656be401d1f6,
     type: 3}
   foundationSnappingPoints:
-  - {x: 2, y: 0, z: 0}
-  - {x: 0, y: 0, z: 2}
-  - {x: -2, y: 0, z: 0}
-  - {x: 0, y: 0, z: -2}
-  wallSnappingPoints:
   - {x: 1, y: 1, z: 0}
   - {x: -1, y: 1, z: 0}
-  - {x: 1, y: -1, z: 0}
-  - {x: -1, y: -1, z: 0}
+  - {x: 0, y: 1, z: 1}
+  - {x: 0, y: 1, z: -1}
+  wallSnappingPoints:
+  - {x: 0, y: 2, z: 0}
+  - {x: 0, y: 0, z: 2}
+  - {x: 0, y: -2, z: 0}
+  - {x: 0, y: 0, z: -2}

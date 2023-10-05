@@ -420,7 +420,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "38c7004b5aa54c49be3e0f2909bcf3ea",
     "m_Id": 0,
-    "m_DisplayName": "Transparency",
+    "m_DisplayName": "transparency",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",

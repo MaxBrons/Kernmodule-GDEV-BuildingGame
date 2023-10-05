@@ -13,8 +13,11 @@ namespace BuildingGame.BuildingSystem
         private IBuildingState _destroyState;
 
         // Loads all structure scriptable objects
-        Structure[] structures = Resources.LoadAll(
+        private Structure[] structures = Resources.LoadAll(
             "ScriptableObjects/Structures", typeof(Structure)).Cast<Structure>().ToArray();
+
+        private int _currentSelectedStructureIndex = 0;
+
 
         // field and property to manage current building state
         private IBuildingState currentBuildingState;
@@ -46,13 +49,25 @@ namespace BuildingGame.BuildingSystem
             inputActions.Enable();
 
             // Select the first structure and start in building state
-            CurrentSelectedStructure = structures[0];
+            CurrentSelectedStructure = structures[_currentSelectedStructureIndex];
             CurrentBuildingState = _buildingState;
         }
 
         public override void OnUpdate()
         {
             CurrentBuildingState?.Update(this);
+        }
+
+        // Selects next structure
+        public void SelectNextStructure()
+        {
+            CurrentSelectedStructure.DestroyPreviewStructure();
+
+            _currentSelectedStructureIndex += 1;
+
+            if(_currentSelectedStructureIndex > structures.Length - 1) { _currentSelectedStructureIndex = 0; }
+
+            CurrentSelectedStructure = structures[_currentSelectedStructureIndex];
         }
     }
 }
