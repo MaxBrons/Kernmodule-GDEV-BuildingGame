@@ -1,6 +1,7 @@
 ﻿
 namespace BuildingGame.Core
 {
+    // A base interface for a behaviour class
     public interface IBehaviour
     {
         public void OnAwake();

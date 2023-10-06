@@ -43,6 +43,8 @@ namespace BuildingGame.Core
         public void OnAwake()
         {
             _behaviours = new();
+            
+            // Initialize the derived variant of this manager.
             Initialize();
             _behaviours.ForEach(behaviour => behaviour.OnAwake());
         }
