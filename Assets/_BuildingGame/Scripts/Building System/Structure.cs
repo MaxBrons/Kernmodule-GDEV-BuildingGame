@@ -5,8 +5,8 @@ namespace BuildingGame.BuildingSystem
     [CreateAssetMenu()]
     public class Structure : ScriptableObject
     {
-        [SerializeField] public GameObject structurePreviewPrefab;
-        [SerializeField] public GameObject structurePrefab;
+        [SerializeField] private GameObject structurePreviewPrefab;
+        [SerializeField] private GameObject structurePrefab;
 
         public SnappingPoint[] snappingPoints;
 
