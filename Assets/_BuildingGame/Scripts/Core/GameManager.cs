@@ -18,7 +18,7 @@ namespace BuildingGame.Core
             // to the scratchpad (LostAndFound) for later
             // retrieval by the behaviours.
             foreach (var data in _behaviourDataSets) {
-                LostAndFound.Add(data.ID, data.Data);
+                LostAndFound.Add(data.ID, Instantiate(data.Data));
             }
 
             // Add all the behaviour managers in this list

@@ -25,9 +25,9 @@ namespace BuildingGame.Data
             return true;
         }
 
-        public static object Retrieve(string id)
+        public static T Retrieve<T>(string id)
         {
-            object data = _data.GetValueOrDefault(id);
+            T data = (T)_data.GetValueOrDefault(id);
             return data ?? default;
         }
     }
