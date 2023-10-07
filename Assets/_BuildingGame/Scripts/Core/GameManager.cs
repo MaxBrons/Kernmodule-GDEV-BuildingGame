@@ -1,3 +1,5 @@
+using BuildingGame.Data;
+using BuildingGame.Inventory;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,15 +9,24 @@ namespace BuildingGame.Core
     // manager will manage practically every object in the game.
     public class GameManager : MonoBehaviour
     {
+        [SerializeField] private List<BehaviourDataSet> _behaviourDataSets = new();
         private List<IBehaviourManager> _behaviourManagers;
 
         private void Awake()
         {
+            // This adds all the scriptable object data sets
+            // to the scratchpad (LostAndFound) for later
+            // retrieval by the behaviours.
+            foreach (var data in _behaviourDataSets) {
+                LostAndFound.Add(data.ID, Instantiate(data.Data));
+            }
+
             // Add all the behaviour managers in this list
             // to be updated during runtime.
             _behaviourManagers = new()
             {
                 new DebugBehaviourManager(),
+                new InventoryManager(),
                 new BuildingSystem.BuildingBehaviourManager(),
                 new Player.PlayerBehaviourManager(),
             };

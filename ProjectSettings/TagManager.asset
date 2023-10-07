@@ -4,6 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Inventory
+  - Slot Icon
+  - Slot Name
+  - Slot Count
+  - Slot
+  - Tool Slot
+  - Equiped Slot
   - Structure
   layers:
   - Default
