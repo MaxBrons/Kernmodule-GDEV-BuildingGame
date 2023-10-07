@@ -27,6 +27,8 @@ namespace BuildingGame.Core
             {
                 new DebugBehaviourManager(),
                 new InventoryManager(),
+                new BuildingSystem.BuildingBehaviourManager(),
+                new Player.PlayerBehaviourManager(),
             };
 
             _behaviourManagers.ForEach(manager => manager.OnAwake());
