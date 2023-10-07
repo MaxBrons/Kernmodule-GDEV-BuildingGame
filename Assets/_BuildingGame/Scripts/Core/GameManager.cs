@@ -1,5 +1,8 @@
+using BuildingGame.BuildingSystem;
 using BuildingGame.Data;
+using BuildingGame.Input;
 using BuildingGame.Inventory;
+using BuildingGame.Player;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,16 +24,23 @@ namespace BuildingGame.Core
                 LostAndFound.Add(data.ID, Instantiate(data.Data));
             }
 
+            // Initialize the input and enable it.
+            InputManager.Initialize();
+
             // Add all the behaviour managers in this list
             // to be updated during runtime.
             _behaviourManagers = new()
             {
                 new DebugBehaviourManager(),
                 new InventoryManager(),
-                new BuildingSystem.BuildingBehaviourManager(),
-                new Player.PlayerBehaviourManager(),
+                new BuildingBehaviourManager(),
+                new PlayerBehaviourManager(),
             };
 
+            InputHandler handler = new InputHandler(InputManager.InputActionAsset.Inventory.Toggle,
+                                                    new() { _behaviourManagers[1] },
+                                                    new() { _behaviourManagers[2], _behaviourManagers[3] }
+                                                    );
             _behaviourManagers.ForEach(manager => manager.OnAwake());
         }
 
@@ -57,6 +67,15 @@ namespace BuildingGame.Core
         private void OnDestroy()
         {
             _behaviourManagers.ForEach(manager => manager.OnDestroy());
+
+            // This removes all the scriptable object data sets
+            // from the scratchpad (LostAndFound).
+            foreach (var data in _behaviourDataSets) {
+                LostAndFound.Remove(data.ID);
+            }
+
+            // Deinitialize the input and disable it.
+            InputManager.Deinitialize();
         }
     }
 }

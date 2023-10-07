@@ -44,6 +44,13 @@ namespace BuildingGame.Core
         public void SetEnabled(bool value)
         {
             _enabled = value;
+
+            if (_enabled) {
+                OnEnable();
+                return;
+            }
+
+            OnDisable();
         }
     }
 }

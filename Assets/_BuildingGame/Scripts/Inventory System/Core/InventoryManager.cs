@@ -10,10 +10,12 @@ namespace BuildingGame.Inventory
     public class InventoryManager : BehaviourManager
     {
         private InventoryHandle _inventoryHandle;
+        private InventoryInput _inventoryInput;
         private IData _data;
         private string _currentSelectedItem;
 
         private const string INVENTORY_DATA = "Inventory Data";
+        private const string INVENTORY_NAME = "Inventory";
 
         // Unbind from all the UI selection events
         ~InventoryManager()
@@ -40,6 +42,11 @@ namespace BuildingGame.Inventory
             var inventoryUI = new InventoryUI(inventory, data);
             _inventoryHandle = new InventoryHandle(inventory, inventoryUI);
             data.Items.ForEach(item => _inventoryHandle.Inventory.AddItem(item));
+
+            LostAndFound.Add(INVENTORY_NAME, _inventoryHandle.Inventory);
+
+            // Create and setup the inventory input
+            _inventoryInput = new InventoryInput(inventoryUI);
 
             // These events are for when an inventory UI item is selected.
             inventoryUI.OnItemSelected += InventoryUIOnItemSelected;

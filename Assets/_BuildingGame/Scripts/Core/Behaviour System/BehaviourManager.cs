@@ -4,6 +4,9 @@ namespace BuildingGame.Core
 {
     public abstract class BehaviourManager : IBehaviourManager
     {
+        public bool Enabled => _enabled;
+        private bool _enabled = true;
+
         // A list of behaviours to be updated by this manager.
         protected List<IMonoBehaviour> _behaviours = new();
 
@@ -43,7 +46,7 @@ namespace BuildingGame.Core
         public void OnAwake()
         {
             _behaviours = new();
-            
+
             // Initialize the derived variant of this manager.
             Initialize();
             _behaviours.ForEach(behaviour => behaviour.OnAwake());
@@ -56,17 +59,35 @@ namespace BuildingGame.Core
 
         public void OnUpdate()
         {
-            _behaviours.ForEach(behaviour => behaviour.OnUpdate());
+            if (!_enabled)
+                return;
+
+            _behaviours.ForEach(behaviour => {
+                if (behaviour.Enabled)
+                    behaviour.OnUpdate();
+            });
         }
 
         public void OnFixedUpdate()
         {
-            _behaviours.ForEach(behaviour => behaviour.OnFixedUpdate());
+            if (!_enabled)
+                return;
+
+            _behaviours.ForEach(behaviour => {
+                if (behaviour.Enabled)
+                    behaviour.OnFixedUpdate();
+            });
         }
 
         public void OnLateUpdate()
         {
-            _behaviours.ForEach(behaviour => behaviour.OnLateUpdate());
+            if (!_enabled)
+                return;
+
+            _behaviours.ForEach(behaviour => {
+                if (behaviour.Enabled)
+                    behaviour.OnLateUpdate();
+            });
         }
 
         // Destroy all behaviours in the list of behaviours
@@ -80,6 +101,29 @@ namespace BuildingGame.Core
             });
 
             _behaviours = new();
+        }
+
+        public virtual void OnEnable()
+        {
+        }
+
+        public virtual void OnDisable()
+        {
+        }
+
+        // Set this behaviour manager enabled or disabled and also set
+        // its behaviours enabled or disabled.
+        public void SetEnabled(bool enabled)
+        {
+            _enabled = enabled;
+            _behaviours.ForEach(behaviour => behaviour.SetEnabled(enabled));
+
+            if (_enabled) {
+                OnEnable();
+                return;
+            }
+
+            OnDisable();
         }
         #endregion
     }

@@ -32,7 +32,7 @@ namespace BuildingGame.BuildingSystem
         {
             Instantiate(structurePrefab, pos, Quaternion.identity * Quaternion.Euler(rot.x, rot.y, rot.z) * structurePreviewPrefab.transform.localRotation);
 
-            // TODO: Return false when conditions are not legal
+            // TO-DO: return false when conditions are not right.
             return true;
         }
     }

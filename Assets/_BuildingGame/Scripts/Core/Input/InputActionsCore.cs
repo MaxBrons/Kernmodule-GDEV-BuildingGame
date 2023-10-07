@@ -224,6 +224,34 @@ namespace BuildingGame.Input
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Inventory"",
+            ""id"": ""fb4c6e02-27d3-4c16-b6f5-7c9bc70af241"",
+            ""actions"": [
+                {
+                    ""name"": ""Toggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""21283f07-9c0a-4d6e-8632-270eb261ecf2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""aa6748c3-c01d-4d02-813b-e0d94c1855ca"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Toggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -239,6 +267,9 @@ namespace BuildingGame.Input
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
             m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
+            // Inventory
+            m_Inventory = asset.FindActionMap("Inventory", throwIfNotFound: true);
+            m_Inventory_Toggle = m_Inventory.FindAction("Toggle", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -428,6 +459,52 @@ namespace BuildingGame.Input
             }
         }
         public PlayerActions @Player => new PlayerActions(this);
+
+        // Inventory
+        private readonly InputActionMap m_Inventory;
+        private List<IInventoryActions> m_InventoryActionsCallbackInterfaces = new List<IInventoryActions>();
+        private readonly InputAction m_Inventory_Toggle;
+        public struct InventoryActions
+        {
+            private @InputActionsCore m_Wrapper;
+            public InventoryActions(@InputActionsCore wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Toggle => m_Wrapper.m_Inventory_Toggle;
+            public InputActionMap Get() { return m_Wrapper.m_Inventory; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(InventoryActions set) { return set.Get(); }
+            public void AddCallbacks(IInventoryActions instance)
+            {
+                if (instance == null || m_Wrapper.m_InventoryActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_InventoryActionsCallbackInterfaces.Add(instance);
+                @Toggle.started += instance.OnToggle;
+                @Toggle.performed += instance.OnToggle;
+                @Toggle.canceled += instance.OnToggle;
+            }
+
+            private void UnregisterCallbacks(IInventoryActions instance)
+            {
+                @Toggle.started -= instance.OnToggle;
+                @Toggle.performed -= instance.OnToggle;
+                @Toggle.canceled -= instance.OnToggle;
+            }
+
+            public void RemoveCallbacks(IInventoryActions instance)
+            {
+                if (m_Wrapper.m_InventoryActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(IInventoryActions instance)
+            {
+                foreach (var item in m_Wrapper.m_InventoryActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_InventoryActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public InventoryActions @Inventory => new InventoryActions(this);
         public interface IBuildingActions
         {
             void OnPlaceBluiding(InputAction.CallbackContext context);
@@ -440,6 +517,10 @@ namespace BuildingGame.Input
             void OnMove(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
             void OnSprint(InputAction.CallbackContext context);
+        }
+        public interface IInventoryActions
+        {
+            void OnToggle(InputAction.CallbackContext context);
         }
     }
 }

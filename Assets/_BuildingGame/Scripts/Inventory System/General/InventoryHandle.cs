@@ -17,15 +17,27 @@ namespace BuildingGame.Inventory
 
             _inventory.OnItemAdded += UpdateUI;
             _inventory.OnItemRemoved += UpdateUI;
+
+            _inventoryUI.OnEnabled += OnUIEnabled;
         }
 
         ~InventoryHandle()
         {
             _inventory.OnItemAdded -= UpdateUI;
             _inventory.OnItemRemoved -= UpdateUI;
+
+            _inventoryUI.OnEnabled -= OnUIEnabled;
         }
 
+        // Update the UI when a new item gets added or removed.
         private void UpdateUI(IInventoryItem obj)
+        {
+            _inventoryUI.UpdateUI(_inventory);
+        }
+
+        // Update the UI when the UI gets enabled again, just 
+        // to be sure.
+        private void OnUIEnabled()
         {
             _inventoryUI.UpdateUI(_inventory);
         }

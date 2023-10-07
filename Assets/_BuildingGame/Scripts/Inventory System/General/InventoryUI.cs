@@ -12,16 +12,23 @@ namespace BuildingGame.Inventory
     // A default interface for inventory UI classes
     public interface IInventoryUI
     {
+        public event Action OnEnabled;
+        public event Action OnDisabled;
+
         public void UpdateUI(IInventory inventory);
+        public void SetEnabled(bool enabled);
     }
 
     // This is the main inventory UI class that handles practically everything
     // for the inventory UI.
     public class InventoryUI : IInventoryUI
     {
+        public event Action OnEnabled;
+        public event Action OnDisabled;
         public event Action<string> OnItemSelected;
         public event Action<string> OnToolItemSelected;
 
+        private Transform _inventoryTransform;
         private List<IInventoryUIItem> _items = new();
         private List<IInventoryUIItem> _toolItems = new();
         private IInventoryUIItem _equipedItem;
@@ -33,6 +40,9 @@ namespace BuildingGame.Inventory
         public InventoryUI(IInventory inventory, IData data)
         {
             _data = (InventoryData)data;
+
+            // Store the inventory UI root for enabling and disabling the UI.
+            _inventoryTransform = GameObject.FindGameObjectWithTag(_data.InventoryTag).transform;
 
             // Store all the different slots in a list for later use.
             _items = GetSlots(_data.InventorySlotTag);
@@ -82,6 +92,18 @@ namespace BuildingGame.Inventory
             }
         }
 
+        public void SetEnabled(bool enabled)
+        {
+            _inventoryTransform.gameObject.SetActive(enabled);
+
+            if (enabled) {
+                OnEnabled?.Invoke();
+                return;
+            }
+
+            OnDisabled?.Invoke();
+        }
+
         // Update the UI for the inventory item tool slots (blueprint slots)
         private void UpdateToolItems(IInventory inventory)
         {
@@ -127,8 +149,7 @@ namespace BuildingGame.Inventory
         private List<IInventoryUIItem> GetSlots(string slotTag)
         {
             // Get the inventory UI gameobject in the scene hierarchy and get all the children from it.
-            Transform inventoryTransform = GameObject.FindGameObjectWithTag(_data.InventoryTag).transform;
-            List<RectTransform> slots = inventoryTransform.GetComponentsInChildren<RectTransform>().ToList();
+            List<RectTransform> slots = _inventoryTransform.GetComponentsInChildren<RectTransform>().ToList();
 
             // Filter the slots based on the given slot tag.
             slots = slots.FindAll(slot => slot.CompareTag(slotTag));

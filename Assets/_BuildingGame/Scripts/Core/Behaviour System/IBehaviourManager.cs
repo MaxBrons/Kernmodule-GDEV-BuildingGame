@@ -1,7 +1,7 @@
 namespace BuildingGame.Core
 {
     // An inteface for storing a reference to a Behaviour Manager.
-    public interface IBehaviourManager : IBehaviour
+    public interface IBehaviourManager : IMonoBehaviour
     {
 
     }
